@@ -1,0 +1,9 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0.22-openssl
+    volumes:
+      - type: bind
+        source: ./mosquitto/
+        target: /mosquitto/config/
+    ports:
+      - 1883:1883

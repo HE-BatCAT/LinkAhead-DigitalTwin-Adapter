@@ -1,0 +1,49 @@
+metrics:
+  - &url_cycling_xlsx
+    name: "url_cycling_xlsx"
+    description: "URL for downloading a xlsx file containing cycling data"
+    datatype: String
+    is_null: True
+  - &cycling_decision
+    name: "cycling_decision"
+    description: "Decision of the DT regarding the cycling data."
+    datatype: Boolean
+    is_null: True
+sparkplug:
+  namespace: spBv1.0
+  version: 0.1.0
+  title: "BatCAT DT MVP"
+  description: "Sparkplug group for LinkAhead and the DT."
+  group_id: "batcat-testbed-1-v0.1"
+  default_server_id: local-testing
+  servers:
+    - server_id: local-testing
+      host: localhost
+      port: 1883
+    - server_id: batcat.indiscale.com
+      host: batcat.indiscale.com
+      port: 8883
+      tls_config: {}
+  host_applications:
+    - sparkplug_host_id: digital-twin
+  edge_nodes:
+    - edge_node_id: "edge_node_linkahead"
+      title: "Edge Node LinkAhead"
+      description: "An edge node for LinkAhead which acts as a sensor and actuator."
+      primary_host_application: "digital-twin"
+      devices:
+        - device_id: "cycling_data_source"
+          title: "Cycling Data Source"
+          description: "A source for cyling data."
+          metrics:
+            - *url_cycling_xlsx
+        - device_id: "cycling_decision_sink"
+          title: "Cycling Data Sink"
+          description: "A sink for cycling decisions."
+          commands:
+            - *cycling_decision
+
+
+
+
+
