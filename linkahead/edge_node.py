@@ -6,6 +6,7 @@ import time
 import random
 import logging
 import pysparkplug as psp
+import json
 from pysparkplug_builder import SparkplugGroup
 
 LOG_LEVEL=os.environ.get("LOG_LEVEL", "INFO")
@@ -30,10 +31,28 @@ sleep_for = 10
 if len(sys.argv) > 1:
     sleep_for = int(sys.argv[1])
 
-try:
+urls = [
+    "https://www.fileexamples.com/api/sample-file?format=xlsx&size=10485760",
+]
+
+if os.path.exists("./download_urls.json"):
+    logger.info("read download urls from download_urls.json")
+    with open("./download_urls.json", "r") as fh:
+        _urls = json.load(fh)
+    if isinstance(urls, list):
+        urls = _urls
+    else:
+        logger.error("could not read download_urls as json list")
+
+def cycle_forever(items):
     while True:
+        for x in items:
+            yield x
+
+
+try:
+    for next_value in cycle_forever(urls):
         time.sleep(sleep_for)
-        next_value="https://www.fileexamples.com/api/sample-file?format=xlsx&size=10485760"
         logger.info("publishing metric %s=%s", url_metric_builder.name, next_value)
         metrics = [
                 url_metric_builder.build_value(next_value)
