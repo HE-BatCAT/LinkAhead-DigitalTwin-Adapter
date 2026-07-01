@@ -21,8 +21,8 @@ sparkplug:
       host: localhost
       port: 1883
     - server_id: batcat.indiscale.com
-      host: batcat.indiscale.com
-      port: 8883
+      host: playground.indiscale.com
+      port: 443
       tls_config: {}
   host_applications:
     - sparkplug_host_id: digital-twin
