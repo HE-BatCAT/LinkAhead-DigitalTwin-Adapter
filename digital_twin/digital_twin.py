@@ -60,7 +60,7 @@ class DigitalTwin:
 
     def request_decision(self, url):
         local_path = self._download(url)
-        return self._request_decision(local_path)
+        return f"{url}: " + self._request_decision(local_path)
 
 class DigitalTwinFacade:
 
